@@ -18,17 +18,23 @@ export const columns: ColumnDef<Genre>[] = [
     header: "Slug",
     cell: ({ row }) => <Badge>{row.original.slug}</Badge>,
   },
-  // {
-  //   accessorKey: "movies",
-  //   header: "Movies",
-  //   cell: ({ row }) => <Badge>{row.original.movies}</Badge>,
-  // },
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const genre = row.original;
-
-      return <div>Action Button</div>;
-    },
+    accessorKey: "movies",
+    header: "Movies",
+    cell: ({ row }) => (
+      <Badge>
+        {Array.isArray(row.original.movies) && row.original.movies.length > 0
+          ? row.original.movies.join(", ")
+          : "-"}
+      </Badge>
+    ),
   },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => {
+  //     const genre = row.original;
+
+  //     return <ActionColumn slug={genre.slug}></ActionColumn>;
+  //   },
+  // },
 ];

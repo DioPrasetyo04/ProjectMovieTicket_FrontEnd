@@ -29,6 +29,7 @@ import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Allert from "./ui/Allert";
+import { useAllert } from "@/context/AllertContext";
 
 export function LoginForm({
   className,
@@ -36,11 +37,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
 
-  const [alertData, setAlertData] = useState<{
-    open: boolean;
-    status: "Success" | "Error" | "Failed" | "Info";
-    message: string;
-  }>({ open: false, status: "Success", message: "" });
+  const { setAllert } = useAllert();
 
   const form = useForm<LoginValues>({
     // resolvernya dari zodresolver untuk schema form dan validation form
@@ -59,7 +56,6 @@ export function LoginForm({
 
     // response error jika error
     onError: (error: any) => {
-      console.error("Login error:", error);
       const message =
         error?.response?.data?.message || "Login Failed, please try again.";
       const status = error?.response?.info;
@@ -73,23 +69,31 @@ export function LoginForm({
         statusType = "Error";
       }
 
-      setAlertData({
+      setAllert({
         open: true,
         status: statusType,
         message: message,
       });
 
       form.reset();
+
+      sessionStorage.setItem(
+        "alert-data",
+        JSON.stringify({
+          open: true,
+          status: statusType,
+          message: message,
+        })
+      );
       navigate("/admin/login");
     },
 
     // response success jika sukses
     onSuccess: (data) => {
-      console.log("Login successful:", data);
       const status = (data.status || "Success") as "Success";
       const message = data.message || "Login Successful.";
 
-      setAlertData({
+      setAllert({
         open: true,
         status: status,
         message: message,
@@ -97,6 +101,15 @@ export function LoginForm({
 
       // secure local storage hash
       secureLocalStorage.setItem(SESSION_KEY, data.data);
+
+      sessionStorage.setItem(
+        "alert-data",
+        JSON.stringify({
+          open: true,
+          status: status,
+          message: message,
+        })
+      );
 
       // navigate ke admin
       navigate("/admin");
@@ -240,14 +253,6 @@ export function LoginForm({
           </FieldDescription>
         </div>
       </form>
-
-      {alertData.open === true && (
-        <Allert
-          status={alertData.status}
-          message={alertData.message}
-          onClose={() => setAlertData({ ...alertData, open: false })}
-        ></Allert>
-      )}
     </Form>
   );
 }

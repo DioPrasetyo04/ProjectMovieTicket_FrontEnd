@@ -1,4 +1,4 @@
-import { useState, type JSX } from "react";
+import { useState, type CSSProperties, type JSX } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -14,6 +14,9 @@ export type AllertProps = {
   children?: React.ReactNode;
   variant?: "success" | "error" | "failed" | "info";
   size?: "default" | "sm" | "lg";
+  button?: boolean;
+  modificationButton?: string;
+  childrenButton?: JSX.Element;
   onClose?: () => void;
 };
 
@@ -47,6 +50,9 @@ const Allert = ({
   className,
   variant,
   size,
+  button = false,
+  modificationButton,
+  childrenButton,
   onClose,
 }: AllertProps) => {
   const [open, setOpen] = useState(true);
@@ -70,6 +76,7 @@ const Allert = ({
         return <FaCircleInfo className="text-blue-600 text-[50px]" />;
     }
   };
+
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-40">
       <div className={cn(cardAlertVariants({ variant, size, className }))}>
@@ -77,41 +84,29 @@ const Allert = ({
           <div className="h-[50px] w-[50px] mb-2 flex justify-center items-center">
             {getIcon(status)}
           </div>
+
           <div className="text-center gap-y-5 flex flex-col items-center justify-center">
-            <h2
-              className={cn(
-                "text-lg font-semibold",
-                status === "Success" && "text-green-600",
-                status === "Error" && "text-red-600",
-                status === "Failed" && "text-yellow-600",
-                status === "Info" && "text-blue-600"
-              )}
-            >
-              {status}
-            </h2>
-            <p
-              className={cn(
-                "text-md font-bold",
-                status === "Success" && "text-green-600",
-                status === "Error" && "text-red-600",
-                status === "Failed" && "text-yellow-600",
-                status === "Info" && "text-blue-600"
-              )}
-            >
-              {message}
-            </p>
-            <Button
-              onClick={handleClose}
-              type="button"
-              className={cn(
-                status === "Success" && "bg-green-600",
-                status === "Error" && "bg-red-600",
-                status === "Failed" && "bg-yellow-600",
-                status === "Info" && "bg-blue-600"
-              )}
-            >
-              Ok, Got it!
-            </Button>
+            <h2 className="text-lg font-semibold">{status}</h2>
+            <p className="text-md font-bold">{message}</p>
+
+            {button ? (
+              <div className={`p-3 ${modificationButton}`}>
+                {childrenButton}
+              </div>
+            ) : (
+              <Button
+                onClick={handleClose}
+                type="button"
+                className={cn(
+                  status === "Success" && "bg-green-600",
+                  status === "Error" && "bg-red-600",
+                  status === "Failed" && "bg-yellow-600",
+                  status === "Info" && "bg-blue-600"
+                )}
+              >
+                Ok, Got it!
+              </Button>
+            )}
           </div>
         </div>
       </div>
