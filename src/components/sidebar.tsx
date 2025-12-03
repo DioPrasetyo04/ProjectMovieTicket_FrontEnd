@@ -1,4 +1,11 @@
-import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
+import {
+  Home,
+  LineChart,
+  Package,
+  ShoppingCart,
+  Theater,
+  Users,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
@@ -19,6 +26,13 @@ const Sidebar = () => {
         >
           <Package className="h-4 w-4" />
           Genre
+        </Link>
+        <Link
+          to={"/admin/theaters"}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        >
+          <Theater className="h-4 w-4" />
+          Theaters
         </Link>
       </nav>
     </div>
