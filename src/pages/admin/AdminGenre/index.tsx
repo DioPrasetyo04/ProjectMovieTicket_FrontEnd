@@ -1,13 +1,27 @@
 import TitleHeading from "@/components/title-heading";
 import { Button } from "@/components/ui/button";
-import { columns } from "@/components/ui/columns";
+import { columns } from "@/pages/admin/AdminGenre/columns";
 import { DataTable } from "@/components/ui/data-table";
 import type { Genre } from "@/services/genre/genre.type";
 import { Plus } from "lucide-react";
 import { Link, useLoaderData } from "react-router-dom";
+import { useAllert } from "@/context/AllertContext";
+import { useEffect } from "react";
 
 const AdminGenre = () => {
   const genres = useLoaderData() as Genre[];
+
+  const { setAllert } = useAllert();
+
+  useEffect(() => {
+    const alertData = sessionStorage.getItem("alert-data");
+
+    if (alertData) {
+      const parsed = JSON.parse(alertData);
+      setAllert(parsed);
+      sessionStorage.removeItem("alert-data");
+    }
+  }, []);
   return (
     <div className="flex flex-col gap-y-5 py-5 px-5">
       <TitleHeading title="List Genre"></TitleHeading>

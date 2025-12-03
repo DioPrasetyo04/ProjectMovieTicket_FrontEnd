@@ -16,3 +16,17 @@ export const postGenres = async (
   data: GenreValues
 ): Promise<BaseResponse<Genre>> =>
   privateInstance.post("/admin/genres", data).then((res) => res.data);
+
+export const getDetailGenre = async (
+  slug: string
+): Promise<BaseResponse<Genre>> =>
+  privateInstance.get(`/admin/genre/${slug}`).then((res) => res.data);
+
+export const updateGenre = async (
+  slug: string,
+  data: GenreValues
+): Promise<BaseResponse<Genre>> =>
+  privateInstance.put(`/admin/genre/${slug}`, data).then((res) => res.data);
+
+export const deleteGenre = async (slug: string): Promise<BaseResponse<Genre>> =>
+  privateInstance.delete(`/admin/genre/${slug}`).then((res) => res.data);

@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import ActionColumn from "@/pages/admin/AdminGenre/ActionColumn";
 import type { Genre } from "@/services/genre/genre.type";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -28,7 +29,7 @@ export const columns: ColumnDef<Genre>[] = [
     cell: ({ row }) => {
       const genre = row.original;
 
-      return <div>Action Button</div>;
+      return <ActionColumn slug={genre.slug}></ActionColumn>;
     },
   },
 ];
