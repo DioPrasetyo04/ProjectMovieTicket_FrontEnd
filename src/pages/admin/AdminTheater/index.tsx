@@ -14,7 +14,7 @@ const AdminTheaters = () => {
       <Button className="bg-orange-600 w-[200px] max-w-[300px]" asChild>
         <Link
           className="px-5 py-3 flex gap-x-3 items-center rounded-full"
-          to="/admin/genres/create"
+          to="/admin/theaters/create"
         >
           <Plus className="w-5 h-5" />
           <p className="text-white font-bold text-[20px]">Add Data</p>

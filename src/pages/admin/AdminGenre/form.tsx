@@ -1,5 +1,4 @@
 import TitleHeading from "@/components/title-heading";
-import Allert from "@/components/ui/Allert";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -12,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AllertProvider, useAllert } from "@/context/AllertContext";
+import { useAllert } from "@/context/AllertContext";
 import {
   genreSchema,
   postGenres,
@@ -28,12 +27,12 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const AdminGenreForm = () => {
-  const detail = useLoaderData() as Genre;
+  const detailGenre = useLoaderData() as Genre;
 
   const form = useForm<GenreValues>({
     resolver: zodResolver(genreSchema) as any,
     defaultValues: {
-      name: detail?.name || "",
+      name: detailGenre?.name || "",
     },
   });
 
@@ -41,7 +40,9 @@ const AdminGenreForm = () => {
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: (data: GenreValues) =>
-      detail === undefined ? postGenres(data) : updateGenre(detail.slug, data),
+      detailGenre === undefined
+        ? postGenres(data)
+        : updateGenre(detailGenre.slug, data),
 
     onSuccess: (data) => {
       const status = (data.status || "Success") as
@@ -109,7 +110,7 @@ const AdminGenreForm = () => {
         message: message,
       });
 
-      navigate("/admin/genres/create");
+      navigate("/admin/genres");
     },
   });
 
@@ -128,7 +129,9 @@ const AdminGenreForm = () => {
     <div className="p-5">
       <Card className="overflow-hidden p-0 [box-shadow:20px_20px_5px_#00000082] w-1/2">
         <TitleHeading
-          title={`${detail === undefined ? "Create" : "Update"} Data Genre`}
+          title={`${
+            detailGenre === undefined ? "Create" : "Update"
+          } Data Genre`}
         ></TitleHeading>
         <Form {...form}>
           <form

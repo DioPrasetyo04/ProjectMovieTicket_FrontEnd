@@ -7,7 +7,11 @@ import AdminGenre from "@/pages/admin/AdminGenre";
 import { getDetailGenre, getGenres } from "@/services/genre/genre.service";
 import AdminGenreForm from "@/pages/admin/AdminGenre/form";
 import AdminTheaters from "@/pages/admin/AdminTheater";
-import { getTheaters } from "@/services/theater/theater.service";
+import {
+  getDetailTheater,
+  getTheaters,
+} from "@/services/theater/theater.service";
+import AdminTheaterForm from "@/pages/admin/AdminTheater/form";
 
 const adminRoutes: RouteObject[] = [
   { path: "/admin/login", element: <Login></Login> },
@@ -40,7 +44,7 @@ const adminRoutes: RouteObject[] = [
         path: "/admin/genre/edit/:slug",
         loader: async ({ params }) => {
           if (!params.slug) {
-            throw redirect("genres");
+            throw redirect("/admin/genres");
           }
           const detailGenre = await getDetailGenre(params.slug);
           return detailGenre.data;
@@ -54,6 +58,21 @@ const adminRoutes: RouteObject[] = [
           return theaters.data;
         },
         element: <AdminTheaters></AdminTheaters>,
+      },
+      {
+        path: "/admin/theaters/create",
+        element: <AdminTheaterForm></AdminTheaterForm>,
+      },
+      {
+        path: "/admin/theater/edit/:slug",
+        loader: async ({ params }) => {
+          if (!params.slug) {
+            throw redirect("/admin/theaters");
+          }
+          const detailTheater = await getDetailTheater(params.slug);
+          return detailTheater.data;
+        },
+        element: <AdminTheaterForm></AdminTheaterForm>,
       },
     ],
   },
