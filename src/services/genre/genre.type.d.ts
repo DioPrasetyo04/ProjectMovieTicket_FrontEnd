@@ -1,10 +1,10 @@
-import type { Movie } from "../movie/movie.type";
+import type { Movie } from "../movie/movies";
 
 export interface Genre {
   _id: string;
   name: string;
   slug: string;
-  movies: Movie[];
+  movies: Pick<Movie, "_id", "title", "slug">[];
   createdAt: string;
   updatedAt: string;
 }

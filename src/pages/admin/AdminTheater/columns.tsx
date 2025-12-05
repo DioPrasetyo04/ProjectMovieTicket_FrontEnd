@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import type { Theater } from "@/services/theater/theater.type";
 import type { ColumnDef } from "@tanstack/react-table";
+import ActionColumn from "./ActionColumn";
 
 export const columns: ColumnDef<Theater>[] = [
   {
@@ -104,5 +105,10 @@ export const columns: ColumnDef<Theater>[] = [
         </Badge>
       </div>
     ),
+  },
+  {
+    accessorKey: "actions",
+    header: () => <div className="min-w-[100px]">Actions</div>,
+    cell: ({ row }) => <ActionColumn slug={row.original.slug} />,
   },
 ];

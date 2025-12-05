@@ -1,3 +1,5 @@
+import type { Movie } from "../movie/movies";
+
 export interface Theater {
   layout: Layout;
   _id: string;
@@ -5,7 +7,7 @@ export interface Theater {
   slug: string;
   city: string;
   address: string;
-  movies: string[];
+  movies: Pick<Movie, "_id", "title", "slug">[];
   createdAt: string;
   updatedAt: string;
   total_seats: number;
