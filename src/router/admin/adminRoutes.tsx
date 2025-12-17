@@ -13,7 +13,8 @@ import {
 } from "@/services/theater/theater.service";
 import AdminTheaterForm from "@/pages/admin/AdminTheater/form";
 import AdminMovie from "@/pages/admin/AdminMovie";
-import { getMovies } from "@/services/movie/movie.service";
+import { getDetailMovie, getMovies } from "@/services/movie/movie.service";
+import AdminMovieForm from "@/pages/admin/AdminMovie/form";
 
 const adminRoutes: RouteObject[] = [
   { path: "/admin/login", element: <Login></Login> },
@@ -84,6 +85,38 @@ const adminRoutes: RouteObject[] = [
           return movies.data;
         },
         element: <AdminMovie></AdminMovie>,
+      },
+      {
+        path: "/admin/movies/create",
+        loader: async () => {
+          const genres = await getGenres();
+          const theaters = await getTheaters();
+
+          return {
+            genres: genres.data,
+            theaters: theaters.data,
+            detail: null,
+          };
+        },
+        element: <AdminMovieForm></AdminMovieForm>,
+      },
+      {
+        path: "/admin/movie/edit/:slug",
+        loader: async ({ params }) => {
+          if (!params.slug) {
+            throw redirect("/admin/movies");
+          }
+          const genres = await getGenres();
+          const theaters = await getTheaters();
+          const detail = await getDetailMovie(params.slug);
+
+          return {
+            genres: genres.data,
+            theaters: theaters.data,
+            detail: detail.data,
+          };
+        },
+        element: <AdminMovieForm></AdminMovieForm>,
       },
     ],
   },

@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { rupiahFormat } from "@/lib/utils";
 import type { Movie } from "@/services/movie/movies";
 import type { ColumnDef } from "@tanstack/react-table";
+import ActionColumn from "./ActionColumn";
 
 export const columns: ColumnDef<Movie>[] = [
   {
@@ -92,6 +93,15 @@ export const columns: ColumnDef<Movie>[] = [
           ))}
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: () => <div className="min-w-[100px]">Actions</div>,
+    cell: ({ row }) => {
+      const movie = row.original;
+
+      return <ActionColumn slug={movie.slug} />;
     },
   },
 ];

@@ -36,8 +36,36 @@ export const columns: ColumnDef<Theater>[] = [
   },
   {
     accessorKey: "movies",
-    header: () => <div className="min-w-[200px]">Movies</div>,
-    cell: ({ row }) => <Badge className="w-full">{row.original.movies}</Badge>,
+    header: () => (
+      <div className="lg:min-w-[400px] md:min-w-[300px] min-w-[200px] text-center items-center justify-center">
+        Movies
+      </div>
+    ),
+    cell: ({ row }) => {
+      const moviess = row.original.movies;
+
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-3 px-2 py-2 w-full justify-center items-center place-items-center">
+          {moviess.map((movie, index) => {
+            const LastData = index === moviess.length - 1; // movie terakhir
+            const IsSingle = moviess.length === 1; // cuma 1 data
+            const IsTwo = moviess.length === 2; // cuma 2 data
+            const IsModuloSingle = moviess.length % 3 === 1; // sisa 1 jika dibagi 3
+
+            const spanClass =
+              IsSingle || IsTwo || (LastData && IsModuloSingle)
+                ? "lg:col-span-3 flex items-center"
+                : "flex items-center";
+
+            return (
+              <div key={movie._id} className={spanClass}>
+                <Badge className="font-semibold">{movie.title}</Badge>
+              </div>
+            );
+          })}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "total_seats",

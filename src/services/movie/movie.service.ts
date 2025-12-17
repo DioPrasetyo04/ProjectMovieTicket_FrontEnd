@@ -3,9 +3,36 @@ import z from "zod";
 import type { Movie } from "./movies";
 import { privateInstance } from "@/lib/config_backend";
 
-export const movieSchema = z.object({
+/* =========================
+   FILE VALIDATORS
+========================= */
+
+// WAJIB (CREATE)
+const fileRequired = z
+  .any()
+  .refine((file) => file instanceof File && file.size > 0, {
+    message: "File is required",
+  });
+
+// OPSIONAL (UPDATE)
+const fileOptional = z
+  .any()
+  .optional()
+  .refine(
+    (file) =>
+      file === undefined ||
+      file === null ||
+      (file instanceof File && file.size > 0),
+    { message: "Invalid file" }
+  );
+
+/* =========================
+   CREATE SCHEMA
+========================= */
+
+export const movieCreateSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters long"),
-  genre: z.string().min(1, "Genre is required"), // ObjectId biasanya panjang
+  genre: z.string().min(1, "Genre is required"),
   theaters: z
     .array(z.string().min(1))
     .min(1, "At least one theater is required"),
@@ -13,23 +40,50 @@ export const movieSchema = z.object({
   description: z
     .string()
     .min(5, "Description must be at least 5 characters long"),
-  price: z.number(),
+  price: z.number().min(4, "Price must be at least 4"),
   bonus: z.string().optional(),
-  //   refine digunakan untuk mengupload atau menyimpan file
-  thumbnail: z.any().refine((file: File) => file?.name, {
-    message: "Thumbnail is required",
-  }),
-  video_trailer: z.any().refine((file: File) => file?.name, {
-    message: "Video trailer is required",
-  }),
+
+  // FILE WAJIB
+  thumbnail: fileRequired,
+  video_trailer: fileRequired,
 });
 
-export type movieValues = z.infer<typeof movieSchema>;
+/* =========================
+   UPDATE SCHEMA
+========================= */
+
+export const movieUpdateSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters long"),
+  genre: z.string().min(1, "Genre is required"),
+  theaters: z
+    .array(z.string().min(1))
+    .min(1, "At least one theater is required"),
+  available: z.boolean().optional(),
+  description: z
+    .string()
+    .min(5, "Description must be at least 5 characters long"),
+  price: z.number().min(4, "Price must be at least 4"),
+  bonus: z.string().optional(),
+
+  // FILE OPSIONAL
+  thumbnail: fileOptional,
+  video_trailer: fileOptional,
+});
+
+/* =========================
+   TYPES
+========================= */
+
+export type movieCreateValues = z.infer<typeof movieCreateSchema>;
+export type movieUpdateValues = z.infer<typeof movieUpdateSchema>;
+
+/* =========================
+   API SERVICES
+========================= */
 
 export const getMovies = (): Promise<BaseResponse<Movie[]>> =>
   privateInstance.get("/admin/movies").then((res) => res.data);
 
-// karena bentuknya file yang akan dikirim tidak bisa menggunakan response json dari movieValues sehingga menggunakan format formData agar bisa get dan transfer data file
 export const postMovies = (data: FormData): Promise<BaseResponse<Movie>> =>
   privateInstance
     .post("/admin/movies", data, {
