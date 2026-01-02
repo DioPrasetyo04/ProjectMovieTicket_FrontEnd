@@ -15,6 +15,12 @@ import AdminTheaterForm from "@/pages/admin/AdminTheater/form";
 import AdminMovie from "@/pages/admin/AdminMovie";
 import { getDetailMovie, getMovies } from "@/services/movie/movie.service";
 import AdminMovieForm from "@/pages/admin/AdminMovie/form";
+import AdminCustomer from "@/pages/admin/AdminCustomer";
+import {
+  getCustomers,
+  getDetailCustomer,
+} from "@/services/customers/customer.service";
+import AdminCustomerForm from "@/pages/admin/AdminCustomer/form";
 
 const adminRoutes: RouteObject[] = [
   { path: "/admin/login", element: <Login></Login> },
@@ -117,6 +123,29 @@ const adminRoutes: RouteObject[] = [
           };
         },
         element: <AdminMovieForm></AdminMovieForm>,
+      },
+      {
+        path: "/admin/customers",
+        loader: async () => {
+          const users = await getCustomers();
+          return users.data;
+        },
+        element: <AdminCustomer></AdminCustomer>,
+      },
+      {
+        path: "/admin/customers/create",
+        element: <AdminCustomerForm></AdminCustomerForm>,
+      },
+      {
+        path: "/admin/customer/edit/:email",
+        loader: async ({ params }) => {
+          if (!params.email) {
+            throw redirect("/admin/customers");
+          }
+          const detailCustomer = await getDetailCustomer(params.email);
+          return detailCustomer.data;
+        },
+        element: <AdminCustomerForm></AdminCustomerForm>,
       },
     ],
   },

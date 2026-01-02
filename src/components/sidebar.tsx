@@ -1,10 +1,12 @@
 import {
   Clapperboard,
+  DollarSign,
   Home,
   LineChart,
   Package,
   ShoppingCart,
   Theater,
+  User,
   Users,
 } from "lucide-react";
 
@@ -23,7 +25,7 @@ const Sidebar = () => {
         </Link>
         <Link
           to="/admin/genres"
-          className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
         >
           <Package className="h-4 w-4" />
           Genre
@@ -41,6 +43,20 @@ const Sidebar = () => {
         >
           <Clapperboard className="h-4 w-4" />
           Movies
+        </Link>
+        <Link
+          to={"/admin/customers"}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        >
+          <User className="h-4 w-4"></User>
+          Customers
+        </Link>
+        <Link
+          to={"/admin/transactions"}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        >
+          <DollarSign className="h-4 w-4"></DollarSign>
+          Transactions
         </Link>
       </nav>
     </div>
