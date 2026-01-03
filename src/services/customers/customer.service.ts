@@ -83,3 +83,6 @@ export const deleteCustomer = async (
   email: string
 ): Promise<BaseResponse<User>> =>
   privateInstance.delete(`/admin/user/${email}`).then((res) => res.data);
+
+export const getTransactionsByUser = async (): Promise<BaseResponse<User[]>> =>
+  privateInstance.get(`/admin/ticket-transactions`).then((res) => res.data);

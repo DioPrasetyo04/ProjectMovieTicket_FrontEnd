@@ -2,6 +2,7 @@ import type { LoginResponse } from "@/services/auth/auth.type";
 import { clsx, type ClassValue } from "clsx";
 import secureLocalStorage from "react-secure-storage";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -51,4 +52,8 @@ export function rupiahFormat(value: number) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value);
+}
+
+export function dateFormated(value: Date | string, format: "DD-MM-YYYY HH:mm") {
+  return dayjs(value).format(format);
 }

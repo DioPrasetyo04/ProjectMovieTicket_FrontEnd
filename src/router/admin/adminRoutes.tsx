@@ -19,8 +19,10 @@ import AdminCustomer from "@/pages/admin/AdminCustomer";
 import {
   getCustomers,
   getDetailCustomer,
+  getTransactionsByUser,
 } from "@/services/customers/customer.service";
 import AdminCustomerForm from "@/pages/admin/AdminCustomer/form";
+import AdminTransactions from "@/pages/admin/AdminTransaction";
 
 const adminRoutes: RouteObject[] = [
   { path: "/admin/login", element: <Login></Login> },
@@ -146,6 +148,14 @@ const adminRoutes: RouteObject[] = [
           return detailCustomer.data;
         },
         element: <AdminCustomerForm></AdminCustomerForm>,
+      },
+      {
+        path: "/admin/transactions",
+        loader: async () => {
+          const transactions = await getTransactionsByUser();
+          return transactions.data;
+        },
+        element: <AdminTransactions></AdminTransactions>,
       },
     ],
   },

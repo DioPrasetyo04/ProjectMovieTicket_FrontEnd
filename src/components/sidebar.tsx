@@ -8,6 +8,7 @@ import {
   Theater,
   User,
   Users,
+  Wallet,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +58,13 @@ const Sidebar = () => {
         >
           <DollarSign className="h-4 w-4"></DollarSign>
           Transactions
+        </Link>
+        <Link
+          to={"/admin/wallet-transactions"}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        >
+          <Wallet className="h-4 w-4"></Wallet>
+          Wallet Transactions
         </Link>
       </nav>
     </div>
