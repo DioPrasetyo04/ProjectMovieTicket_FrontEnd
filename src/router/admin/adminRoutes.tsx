@@ -20,9 +20,11 @@ import {
   getCustomers,
   getDetailCustomer,
   getTransactionsByUser,
+  getWalletTransactionsByUser,
 } from "@/services/customers/customer.service";
 import AdminCustomerForm from "@/pages/admin/AdminCustomer/form";
 import AdminTransactions from "@/pages/admin/AdminTransaction";
+import AdminWalletTransactions from "@/pages/admin/AdminWalletTransaction";
 
 const adminRoutes: RouteObject[] = [
   { path: "/admin/login", element: <Login></Login> },
@@ -156,6 +158,14 @@ const adminRoutes: RouteObject[] = [
           return transactions.data;
         },
         element: <AdminTransactions></AdminTransactions>,
+      },
+      {
+        path: "/admin/wallet-transactions",
+        loader: async () => {
+          const walletTransactions = await getWalletTransactionsByUser();
+          return walletTransactions.data;
+        },
+        element: <AdminWalletTransactions></AdminWalletTransactions>,
       },
     ],
   },

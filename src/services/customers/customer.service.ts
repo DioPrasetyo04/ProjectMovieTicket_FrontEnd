@@ -1,5 +1,5 @@
 import type { BaseResponse } from "@/Types/BaseResponse";
-import type { User } from "./user.type";
+import type { Transaction, User, WalletTransaction } from "./user.type";
 import { privateInstance } from "@/lib/config_backend";
 import z from "zod";
 
@@ -84,5 +84,10 @@ export const deleteCustomer = async (
 ): Promise<BaseResponse<User>> =>
   privateInstance.delete(`/admin/user/${email}`).then((res) => res.data);
 
-export const getTransactionsByUser = async (): Promise<BaseResponse<User[]>> =>
-  privateInstance.get(`/admin/ticket-transactions`).then((res) => res.data);
+export const getTransactionsByUser = async (): Promise<
+  BaseResponse<Transaction[]>
+> => privateInstance.get(`/admin/ticket-transactions`).then((res) => res.data);
+
+export const getWalletTransactionsByUser = async (): Promise<
+  BaseResponse<WalletTransaction[]>
+> => privateInstance.get(`/admin/wallet-transactions`).then((res) => res.data);
