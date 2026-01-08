@@ -1,7 +1,7 @@
 import type { BaseResponse } from "@/Types/BaseResponse";
 import { z } from "zod";
 import type { LoginResponse } from "./auth.type";
-import { configBackend } from "@/lib/config_backend";
+import { globalInstance } from "@/lib/config_backend";
 
 export const authSchema = z
   .object({
@@ -14,13 +14,24 @@ export const authSchema = z
   })
   .strict();
 
+export const signUpSchema = authSchema.omit({ role: true }).extend({
+  photo: z
+    .any()
+    .refine((file: File) => file?.name, { message: "Photo is required" }),
+});
+
 // mengecualikan atribute name (omit)
 export const loginSchema = authSchema.omit({ name: true });
 
 // z.infer itu digunakan untuk mengambil tipe data dari schema
 export type LoginValues = z.infer<typeof loginSchema>;
 
+export type RegisterValues = z.infer<typeof signUpSchema>;
+
 export const login = async (
   data: LoginValues
 ): Promise<BaseResponse<LoginResponse>> =>
-  configBackend.post("/login", data).then((res) => res.data);
+  globalInstance.post("/login", data).then((res) => res.data);
+
+export const signUp = async (data: FormData) =>
+  globalInstance.post("/register", data).then((res) => res.data);

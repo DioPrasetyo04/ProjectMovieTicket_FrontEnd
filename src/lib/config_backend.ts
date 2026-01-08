@@ -3,7 +3,7 @@ import { getSession } from "./utils";
 
 const urlBackend = import.meta.env.VITE_CONFIG_BACKEND_URL ?? "";
 
-export const configBackend = axios.create({
+export const globalInstance = axios.create({
   baseURL: urlBackend,
   headers: {
     Accept: "application/json",

@@ -5,6 +5,7 @@
 
 @layer base {
   /* Add your base styles here */
+  /* styling base element html etc h1, h2, p, dsb */
   .background-yellow {
     background-color: #eeff06;
   }
@@ -12,13 +13,30 @@
 
 @layer components {
   /* Add your component styles here */
+  /* styling component etc buttons, cards, modals, dsb */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-4 py-2 rounded-md;
+  }
 }
 
 @layer utilities {
   /* Add your utility styles here */
+  /* styling utility classes for margin, padding, flex, grid, dsb */
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 @theme inline {
+  /* styling for theme variables with tailwind or css globals */
+  --premiere-black: (var(--color-premiere-black));
+  --premiere-grey: (var(--color-premiere-grey));
+  --premiere-green: (var(--color-premiere-green));
+  --premiere-light-green: (var(--color-premiere-light-green));
+  --premiere-red: (var(--color-premiere-red));
+  --premiere-light-red: (var(--color-premiere-light-red));
+  --premiere-yellow: (var(--color-premiere-yellow));
+  --premiere-purple: (var(--color-premiere-purple));
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -57,6 +75,15 @@
 }
 
 :root {
+  /* styling for light theme variables */
+  --color-premiere-black: #010101;
+  --color-premiere-grey: #908e8e;
+  --color-premiere-green: #009421;
+  --color-premiere-light-green: #d5ffde;
+  --color-premiere-red: #ff2149;
+  --color-premiere-light-red: #ffdee4;
+  --color-premiere-yellow: #e7a436;
+  --color-premiere-purple: #5236ff;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -92,6 +119,7 @@
 }
 
 .dark {
+  /* styling for dark theme variables */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

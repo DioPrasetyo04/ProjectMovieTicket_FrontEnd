@@ -138,7 +138,7 @@ export function LoginForm({
                     <div className="flex justify-between items-center gap-y-5 p-3">
                       <div className="h-20 w-20 p-2">
                         <img
-                          src="/src/assets/logo/ticket.jpg"
+                          src="/assets/logo/ticket.jpg"
                           alt="Logo Ticket"
                           className=" h-full w-full object-cover object-center"
                         />
@@ -192,7 +192,7 @@ export function LoginForm({
                       Login
                     </Button>
                   </Field>
-                  <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+                  {/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                     Or continue with
                   </FieldSeparator>
                   <Field className="grid grid-cols-3 gap-4">
@@ -235,12 +235,12 @@ export function LoginForm({
                   </Field>
                   <FieldDescription className="text-center">
                     Don&apos;t have an account? <a href="#">Sign up</a>
-                  </FieldDescription>
+                  </FieldDescription> */}
                 </FieldGroup>
               </div>
               <div className="bg-muted relative hidden md:block">
                 <img
-                  src="/src/assets/images/bioskop.webp"
+                  src="/assets/images/bioskop.webp"
                   alt="Image"
                   className="absolute inset-0 h-full w-full object-cover object-center dark:brightness-[0.2] dark:grayscale"
                 />

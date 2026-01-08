@@ -7,6 +7,8 @@ import { Toaster } from "./ui/sonner";
 import Allert from "./ui/Allert";
 import { useAllert } from "@/context/AllertContext";
 
+import "../shadcn.css";
+
 const AdminLayout = () => {
   const { allert, setAllert } = useAllert();
 
