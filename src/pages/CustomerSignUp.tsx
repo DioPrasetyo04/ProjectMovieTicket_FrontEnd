@@ -161,7 +161,7 @@ const CustomerSignUp = () => {
             Create New Account
           </button>
           <Link
-            to="/sign-in "
+            to="/sign-in"
             className="w-full rounded-full py-3 px-[18px] bg-white/10 text-center font-bold"
           >
             Sign In

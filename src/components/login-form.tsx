@@ -41,7 +41,7 @@ export function LoginForm({
 
   const form = useForm<LoginValues>({
     // resolvernya dari zodresolver untuk schema form dan validation form
-    resolver: zodResolver(loginSchema) as any,
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
