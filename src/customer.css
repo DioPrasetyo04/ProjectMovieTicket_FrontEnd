@@ -26,6 +26,31 @@
   .background-yellow {
     background-color: #eeff06;
   }
+
+  .text-premiere-black {
+    color: #010101;
+  }
+  .text-premiere-grey {
+    color: #908e8e;
+  }
+  .text-premiere-gree {
+    color: #009421;
+  }
+  .text-premiere-light-green {
+    color: #d5ffde;
+  }
+  .text-premiere-red {
+    color: #ff2149;
+  }
+  .text-premiere-light-red {
+    color: #ffdee4;
+  }
+  .text-premiere-yellow {
+    color: #e7a436;
+  }
+  .text-premiere-purple {
+    color: #5236ff;
+  }
 }
 
 @layer components {
@@ -46,14 +71,14 @@
 
 @theme inline {
   /* styling for theme variables with tailwind or css globals */
-  --premiere-black: (var(--color-premiere-black));
-  --premiere-grey: (var(--color-premiere-grey));
-  --premiere-green: (var(--color-premiere-green));
-  --premiere-light-green: (var(--color-premiere-light-green));
-  --premiere-red: (var(--color-premiere-red));
-  --premiere-light-red: (var(--color-premiere-light-red));
-  --premiere-yellow: (var(--color-premiere-yellow));
-  --premiere-purple: (var(--color-premiere-purple));
+  --text-premiere-black: (var(--color-premiere-black));
+  --text-premiere-grey: (var(--color-premiere-grey));
+  --text-premiere-green: (var(--color-premiere-green));
+  --text-premiere-light-green: (var(--color-premiere-light-green));
+  --text-premiere-red: (var(--color-premiere-red));
+  --text-premiere-light-red: (var(--color-premiere-light-red));
+  --text-premiere-yellow: (var(--color-premiere-yellow));
+  --text-premiere-purple: (var(--color-premiere-purple));
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

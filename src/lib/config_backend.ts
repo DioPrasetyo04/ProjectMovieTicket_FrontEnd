@@ -7,7 +7,6 @@ export const globalInstance = axios.create({
   baseURL: urlBackend,
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json",
   },
 });
 
