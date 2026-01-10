@@ -1,5 +1,11 @@
 import React from "react";
 
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+
 const CustomerHome = () => {
   return (
     <div
@@ -31,9 +37,13 @@ const CustomerHome = () => {
           />
         </button>
       </div>
-      <div className="swiper-recommendations w-full overflow-hidden mt-5">
-        <div className="swiper-wrapper">
-          <div className="swiper-slide !w-fit">
+      <div className="swiper-recommendations w-full overflow-hidden m-5">
+        <Swiper
+          spaceBetween={15}
+          slidesPerView={"auto"}
+          className="swiper-wrapper space-x-5"
+        >
+          <SwiperSlide className="swiper-slide !w-fit">
             <a href="details.html" className="card">
               <div className="relative flex w-[300px] h-[200px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                 <img
@@ -50,8 +60,8 @@ const CustomerHome = () => {
                 </div>
               </div>
             </a>
-          </div>
-          <div className="swiper-slide !w-fit">
+          </SwiperSlide>
+          <SwiperSlide className="swiper-slide !w-fit">
             <a href="details.html" className="card">
               <div className="relative flex w-[300px] h-[200px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                 <img
@@ -68,8 +78,8 @@ const CustomerHome = () => {
                 </div>
               </div>
             </a>
-          </div>
-          <div className="swiper-slide !w-fit">
+          </SwiperSlide>
+          <SwiperSlide className="swiper-slide !w-fit">
             <a href="details.html" className="card">
               <div className="relative flex w-[300px] h-[200px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                 <img
@@ -86,8 +96,8 @@ const CustomerHome = () => {
                 </div>
               </div>
             </a>
-          </div>
-        </div>
+          </SwiperSlide>
+        </Swiper>
       </div>
       <form
         action="#"
@@ -102,81 +112,85 @@ const CustomerHome = () => {
           <img src="/assets/images/icons/search-white-bg.svg" alt="icon" />
         </button>
       </form>
-      <section id="Genre" className="flex flex-col gap-[10px] mt-5">
+      <section id="Genre" className="flex flex-col gap-[10px] m-5">
         <h2 className="font-semibold px-5">Browse Genre</h2>
         <div className="swiper-genre w-full overflow-hidden">
-          <div className="swiper-wrapper">
-            <div className="swiper-slide !w-fit py-[1px]">
+          <Swiper
+            spaceBetween={4}
+            slidesPerView={"auto"}
+            className="swiper-wrapper"
+          >
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-white font-semibold text-premiere-black text-sm">
                   All
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Family
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Asian
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Horror
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Business
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Romance
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Action
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Commedy
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Documentary
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit py-[1px]">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit py-[1px]">
               <a href="browse-genre.html" className="card">
                 <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
                   Sci-Fi
                 </div>
               </a>
-            </div>
-          </div>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </section>
       <section id="New-Movies" className="flex flex-col gap-4 mt-5 px-5">
@@ -304,11 +318,11 @@ const CustomerHome = () => {
           </div>
         </a>
       </section>
-      <section id="Coming-Soon" className="flex flex-col gap-4 mt-5">
+      <section id="Coming-Soon" className="flex flex-col gap-4 m-5">
         <h2 className="font-semibold px-5">Coming Soon</h2>
         <div className="swiper-coming w-full overflow-hidden">
-          <div className="swiper-wrapper">
-            <div className="swiper-slide !w-fit">
+          <Swiper className="swiper-wrapper" spaceBetween={1} slidesPerView={2}>
+            <SwiperSlide className="swiper-slide !w-fit">
               <a href="details.html" className="card">
                 <div className="relative flex w-[240px] h-[300px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                   <img
@@ -331,8 +345,8 @@ const CustomerHome = () => {
                   </div>
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit">
               <a href="details.html" className="card">
                 <div className="relative flex w-[240px] h-[300px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                   <img
@@ -355,8 +369,8 @@ const CustomerHome = () => {
                   </div>
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit">
               <a href="details.html" className="card">
                 <div className="relative flex w-[240px] h-[300px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                   <img
@@ -379,8 +393,8 @@ const CustomerHome = () => {
                   </div>
                 </div>
               </a>
-            </div>
-            <div className="swiper-slide !w-fit">
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide !w-fit">
               <a href="details.html" className="card">
                 <div className="relative flex w-[240px] h-[300px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                   <img
@@ -403,8 +417,8 @@ const CustomerHome = () => {
                   </div>
                 </div>
               </a>
-            </div>
-          </div>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </section>
       <div id="Bottom-Nav" className="relative w-full h-[123px] flex shrink-0">
