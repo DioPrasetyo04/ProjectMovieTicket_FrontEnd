@@ -1,6 +1,8 @@
+import { getSession } from "@/lib/utils";
+import CustomerHome from "@/pages/CustomerHome";
 import CustomerSignIn from "@/pages/CustomerSignIn";
 import CustomerSignUp from "@/pages/CustomerSignUp";
-import type { RouteObject } from "react-router-dom";
+import { redirect, type RouteObject } from "react-router-dom";
 
 const customerRoutes: RouteObject[] = [
   {
@@ -10,6 +12,19 @@ const customerRoutes: RouteObject[] = [
   {
     path: "/sign-in",
     element: <CustomerSignIn></CustomerSignIn>,
+  },
+  {
+    path: "/",
+    loader: async () => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerHome></CustomerHome>,
   },
 ];
 
