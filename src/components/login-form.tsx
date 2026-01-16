@@ -30,6 +30,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Allert from "./ui/Allert";
 import { useAllert } from "@/context/AllertContext";
+import "../shadcn.css";
 
 export function LoginForm({
   className,
@@ -238,11 +239,11 @@ export function LoginForm({
                   </FieldDescription> */}
                 </FieldGroup>
               </div>
-              <div className="bg-muted relative hidden md:block">
+              <div className="bg-white relative hidden md:block">
                 <img
                   src="/assets/images/bioskop.webp"
                   alt="Image"
-                  className="absolute inset-0 h-full w-full object-cover object-center dark:brightness-[0.2] dark:grayscale"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
                 />
               </div>
             </CardContent>
