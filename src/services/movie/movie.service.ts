@@ -23,7 +23,7 @@ const fileOptional = z
       file === undefined ||
       file === null ||
       (file instanceof File && file.size > 0),
-    { message: "Invalid file" }
+    { message: "Invalid file" },
   );
 
 /* =========================
@@ -94,13 +94,13 @@ export const postMovies = (data: FormData): Promise<BaseResponse<Movie>> =>
     .then((res) => res.data);
 
 export const getDetailMovie = async (
-  slug: string
+  slug: string,
 ): Promise<BaseResponse<Movie>> =>
   privateInstance.get(`/admin/movie/${slug}`).then((res) => res.data);
 
 export const updateMovie = async (
   slug: string,
-  data: FormData
+  data: FormData,
 ): Promise<BaseResponse<Movie>> =>
   privateInstance
     .put(`/admin/movie/${slug}`, data, {

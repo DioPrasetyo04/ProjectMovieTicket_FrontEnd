@@ -4,14 +4,14 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import "swiper/css";
+import "swiper/swiper.css";
 import { getSession } from "@/lib/utils";
 import BottomBar from "@/components/BottomBar";
 import type {
   GenreCustomer,
   MovieCustomer,
 } from "@/services/global/global.type";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 type LoaderData = {
   movies: MovieCustomer[];
@@ -62,7 +62,11 @@ const CustomerHome = () => {
         >
           {movies.map((movie) => (
             <SwiperSlide className="swiper-slide !w-fit">
-              <a href="details.html" className="card">
+              <Link
+                key={`${movie._id}`}
+                to={`/movie/${movie.slug}`}
+                className="card"
+              >
                 <div className="relative flex w-[300px] h-[200px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                   <img
                     src={movie.thumbnailUrl}
@@ -76,7 +80,7 @@ const CustomerHome = () => {
                     />
                   </div>
                 </div>
-              </a>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -106,11 +110,15 @@ const CustomerHome = () => {
           >
             {genres.map((genre: any) => (
               <SwiperSlide className="swiper-slide !w-fit py-[1px]">
-                <a href="browse-genre.html" className="card">
-                  <div className="flex rounded-full p-[12px_14px] bg-white font-semibold text-premiere-black text-sm">
+                <Link
+                  key={`${genre._id}`}
+                  to={`/browse/${genre._id}`}
+                  className="card"
+                >
+                  <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300 hover:bg-white hover:text-black transform">
                     {genre.name}
                   </div>
-                </a>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -119,7 +127,11 @@ const CustomerHome = () => {
       <section id="New-Movies" className="flex flex-col gap-4 mt-5 px-5">
         <h2 className="font-semibold">All New Movies</h2>
         {movies.map((movie) => (
-          <a href="details.html" className="card">
+          <Link
+            key={`${movie._id}`}
+            to={`/movie/${movie.slug}`}
+            className="card"
+          >
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-[14px]">
                 <div className="w-[100px] h-[110px] flex shrink-0 rounded-2xl bg-[#D9D9D9] overflow-hidden">
@@ -162,7 +174,7 @@ const CustomerHome = () => {
                 />
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </section>
       <section id="Coming-Soon" className="flex flex-col gap-4 m-5">
@@ -177,7 +189,7 @@ const CustomerHome = () => {
           >
             {movies.map((movie) => (
               <SwiperSlide className="swiper-slide !w-fit">
-                <a href="details.html" className="card">
+                <Link to={`/movie/${movie.slug}`} className="card">
                   <div className="relative flex w-[240px] h-[300px] shrink-0 rounded-3xl bg-[#D9D9D9] overflow-hidden">
                     <img
                       src={movie.thumbnailUrl}
@@ -198,7 +210,7 @@ const CustomerHome = () => {
                       </div>
                     </div>
                   </div>
-                </a>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>

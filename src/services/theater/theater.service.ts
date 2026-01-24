@@ -17,26 +17,28 @@ export const theaterSchema = z.object({
 
 export type theaterValues = z.infer<typeof theaterSchema>;
 
-export const getTheaters = async (): Promise<BaseResponse<theaterValues>> =>
-  privateInstance.get("/admin/theaters").then((res) => res.data);
+export const getTheaters = async (
+  type: "admin" | "customer" = "admin",
+): Promise<BaseResponse<theaterValues>> =>
+  privateInstance.get(`/${type}/theaters`).then((res) => res.data);
 
 export const postTheater = async (
-  data: theaterValues
+  data: theaterValues,
 ): Promise<BaseResponse<theaterValues>> =>
   privateInstance.post("/admin/theaters", data).then((res) => res.data);
 
 export const getDetailTheater = async (
-  slug: string
+  slug: string,
 ): Promise<BaseResponse<theaterValues>> =>
   privateInstance.get(`/admin/theater/${slug}`).then((res) => res.data);
 
 export const updateTheater = async (
   slug: string,
-  data: theaterValues
+  data: theaterValues,
 ): Promise<BaseResponse<theaterValues>> =>
   privateInstance.put(`/admin/theater/${slug}`, data).then((res) => res.data);
 
 export const deleteTheater = async (
-  slug: string
+  slug: string,
 ): Promise<BaseResponse<theaterValues>> =>
   privateInstance.delete(`/admin/theater/${slug}`).then((res) => res.data);

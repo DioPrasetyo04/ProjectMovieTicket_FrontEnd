@@ -1,12 +1,20 @@
 import type { Genre } from "../genre/genre.type";
-import type { Theater } from "../theater/theater.type";
+import type { Seat, Theater } from "../theater/theater.type";
 
 export interface MovieCustomer {
   _id: string;
   title: string;
   slug: string;
   genre: Pick<Genre, "_id", "name">;
-  theaters: Pick<Theater, "_id", "name">[];
+  theaters: Pick<
+    Theater,
+    "_id",
+    "name",
+    "slug",
+    "city",
+    "layout",
+    "total_seats"
+  >[];
   description: string;
   thumbnail?: string;
   video_trailer?: string;
@@ -23,9 +31,7 @@ export interface GenreCustomer {
   slug: string;
 }
 
-export interface TheaterCustomer {
-  _id: string;
-  name: string;
-  slug: string;
-  city: string;
+export interface MovieFiltered {
+  filteredMovies: MovieCustomer[];
+  allDataMovies: MovieCustomer[];
 }
