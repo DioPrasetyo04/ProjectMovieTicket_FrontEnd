@@ -5,6 +5,7 @@ import type {
   MovieCustomer,
   MovieFiltered,
 } from "./global.type";
+import type { FilterState } from "@/redux/features/filter/filterSlice";
 
 export const getMovies = async (): Promise<BaseResponse<MovieCustomer[]>> =>
   privateInstance.get("/customer/movies").then((res) => res.data);
@@ -14,7 +15,10 @@ export const getGenres = async (): Promise<BaseResponse<GenreCustomer[]>> =>
 
 export const getMovieByGenre = async (
   genreId: string,
+  params?: FilterState,
 ): Promise<BaseResponse<MovieFiltered>> =>
   privateInstance
-    .get(`/customer/browse-movies/${genreId}`)
+    .get(`/customer/browse-movies/${genreId}`, {
+      params: params,
+    })
     .then((res) => res.data);

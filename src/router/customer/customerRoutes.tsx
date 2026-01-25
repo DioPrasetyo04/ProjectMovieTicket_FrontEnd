@@ -52,10 +52,10 @@ const customerRoutes: RouteObject[] = [
 
       const theaters = await getTheaters("customer");
 
-      console.log({
-        genres,
-        theaters,
-      });
+      // console.log({
+      //   genres,
+      //   theaters,
+      // });
 
       return {
         genres: genres.data,

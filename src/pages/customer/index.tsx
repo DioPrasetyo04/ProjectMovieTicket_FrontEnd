@@ -11,6 +11,7 @@ import { Link, useLoaderData, useParams } from "react-router-dom";
 import { getMovieByGenre } from "@/services/global/global.service";
 import type { Genre } from "@/services/genre/genre.type";
 import type { Theater } from "@/services/theater/theater.type";
+import { useAppSelector } from "@/redux/hooks";
 
 export type LoaderData = {
   genres: Pick<Genre, "_id" | "name">[];
@@ -24,10 +25,14 @@ const CustomerBrowseGenre = () => {
 
   const { genreId } = useParams();
 
+  const filter = useAppSelector((state) => state.filter.data);
+
+  // console.log("filter:", filter);
+
   const { data, isLoading } = useQuery({
-    queryKey: ["BrowseMovies", genreId ?? ""],
+    queryKey: ["BrowseMovies", genreId, filter],
     queryFn: async () => {
-      return await getMovieByGenre(genreId as string);
+      return await getMovieByGenre(genreId as string, filter);
     },
   });
 
@@ -79,19 +84,29 @@ const CustomerBrowseGenre = () => {
             {selectedGenre ? selectedGenre.name : "All Genres"}
           </div>
         </a>
-        <a href="browse-genre.html" className="card">
+        {filter.city && (
           <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
-            Jakarta
+            {filter.city}
           </div>
-        </a>
-        <a href="browse-genre.html" className="card">
-          <div className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300">
-            XXI Premiere
-          </div>
-        </a>
+        )}
+        {filter.theaters && (
+          <>
+            {filter.theaters.map((theaterId: string) => {
+              const theaterObj = theaters.find((t) => t._id === theaterId);
+              return (
+                <div
+                  key={theaterId}
+                  className="flex rounded-full p-[12px_14px] bg-[#FFFFFF1A] font-semibold text-sm hover:ring-1 hover:ring-white transition-all duration-300"
+                >
+                  {theaterObj ? theaterObj.name : theaterId}
+                </div>
+              );
+            })}
+          </>
+        )}
       </section>
       <section id="Popular" className="flex flex-col gap-4 mt-5">
-        <h2 className="font-semibold px-5">Popular Movies in Asian</h2>
+        <h2 className="font-semibold px-5">Movies in {selectedGenre?.name}</h2>
         <div className="swiper-popular w-full overflow-hidden">
           <Swiper
             className="swiper-wrapper"
@@ -134,7 +149,7 @@ const CustomerBrowseGenre = () => {
         </div>
       </section>
       <section id="New-Movies" className="flex flex-col gap-4 mt-5 px-5">
-        <h2 className="font-semibold">All New Movies</h2>
+        <h2 className="font-semibold">All Movies</h2>
         {data?.data.allDataMovies.map((movie) => (
           <Link
             key={`${movie._id}`}

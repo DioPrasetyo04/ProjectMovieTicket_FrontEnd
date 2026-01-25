@@ -4,13 +4,17 @@ import router from "./router/index.tsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllertProvider } from "./context/AllertContext.tsx";
+import { Provider } from "react-redux";
+import store from "./redux/store.ts";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <AllertProvider>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}></RouterProvider>
-    </QueryClientProvider>
-  </AllertProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
+    </Provider>
+  </AllertProvider>,
 );

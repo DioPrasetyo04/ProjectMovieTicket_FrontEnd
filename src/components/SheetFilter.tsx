@@ -1,7 +1,15 @@
 import { cn } from "@/lib/utils";
 import type { LoaderData } from "@/pages/customer";
+import { setFilter } from "@/redux/features/filter/filterSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  filterSchema,
+  type FilterValues,
+} from "@/services/global/global.type.d";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 
 interface SheetFilterProps {
   onCancel: () => void;
@@ -10,7 +18,51 @@ interface SheetFilterProps {
 }
 
 const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
+  const { genreId } = useParams();
+
   const { genres, theaters } = useLoaderData() as LoaderData;
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const filter = useAppSelector((state) => state.filter.data);
+
+  const { register, handleSubmit } = useForm<FilterValues>({
+    resolver: zodResolver(filterSchema),
+    defaultValues: {
+      city: filter?.city,
+      genre: genreId,
+      theaters: Array.isArray(filter?.theaters)
+        ? (filter?.theaters[0] ?? "")
+        : (filter?.theaters ?? ""),
+      availability: "1",
+    },
+  });
+
+  const onSubmit = (data: FilterValues) => {
+    // console.log("Filter data:", data);
+
+    dispatch(
+      setFilter({
+        data: {
+          availability: data.availability === "1" ? true : false,
+          city: data?.city ?? undefined,
+          // genre: data?.genre ?? undefined,
+          theaters: data?.theaters ? [data.theaters] : undefined,
+        },
+      }),
+    );
+
+    const body = document.getElementsByTagName("body")[0];
+    body.classList.toggle("overflow-hidden");
+
+    navigate(`/browse/${data.genre}`, {
+      replace: true,
+    });
+
+    onCancel();
+  };
   return (
     <div className="filter-sidebar-container relative w-full">
       <div
@@ -53,7 +105,7 @@ const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
           </div>
 
           <form
-            action="browse-genre.html"
+            onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-[30px] px-5 mt-[30px] mb-[110px]"
           >
             {/* GENRE */}
@@ -63,8 +115,8 @@ const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
                 <label key={genre._id} className="flex items-center gap-2.5">
                   <input
                     type="radio"
-                    value={genre.name}
-                    name={genre.name}
+                    value={genre._id}
+                    {...register("genre")}
                     className="w-6 h-6 rounded-full appearance-none border border-purple-600 bg-white
                     checked:bg-purple-700 checked:border-4 checked:border-purple-600
                     ring-1 ring-purple-500 transition-all duration-300"
@@ -87,7 +139,7 @@ const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
                   <input
                     type="radio"
                     value={theater.city}
-                    name={theater.city}
+                    {...register("city")}
                     className="w-6 h-6 rounded-full appearance-none border border-purple-600 bg-white
                     checked:bg-purple-700 checked:border-4 checked:border-purple-600
                     ring-1 ring-purple-500 transition-all duration-300"
@@ -111,7 +163,7 @@ const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
                   <input
                     type="radio"
                     value={theater._id}
-                    name={theater.name}
+                    {...register("theaters")}
                     className="w-6 h-6 rounded-full appearance-none border border-purple-600 bg-white
                     checked:bg-purple-700 checked:border-4 checked:border-purple-600
                     ring-1 ring-purple-500 transition-all duration-300"
@@ -134,6 +186,7 @@ const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
                   className="w-6 h-6 rounded-full appearance-none border border-purple-600 bg-white
                     checked:bg-purple-700 checked:border-4 checked:border-purple-600
                     ring-1 ring-purple-500 transition-all duration-300"
+                  {...register("availability")}
                 />
                 <p className="font-semibold text-premiere-black">
                   Available Now
@@ -147,6 +200,7 @@ const SheetFilter = ({ onCancel, show, setShow }: SheetFilterProps) => {
                   className="w-6 h-6 rounded-full appearance-none border border-purple-600 bg-white
                     checked:bg-purple-700 checked:border-4 checked:border-purple-600
                     ring-1 ring-purple-500 transition-all duration-300"
+                  {...register("availability")}
                 />
                 <p className="font-semibold text-premiere-black">Coming Soon</p>
               </label>
