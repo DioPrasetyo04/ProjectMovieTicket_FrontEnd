@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
-import "../customer.css";
+import "../../../customer.css";
 import { useMutation } from "@tanstack/react-query";
 
 const CustomerSignUp = () => {
@@ -83,7 +83,7 @@ const CustomerSignUp = () => {
                   id="Text-Label"
                   className={cn(
                     "w-full h-full flex items-center justify-center text-center font-semibold",
-                    photo === undefined ? "block" : "hidden"
+                    photo === undefined ? "block" : "hidden",
                   )}
                 >
                   Add <br />

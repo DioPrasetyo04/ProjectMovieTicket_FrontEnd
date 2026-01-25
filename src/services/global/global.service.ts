@@ -1,6 +1,7 @@
 import type { BaseResponse } from "@/Types/BaseResponse";
 import { privateInstance } from "@/lib/config_backend";
 import type {
+  DataMovieDetail,
   GenreCustomer,
   MovieCustomer,
   MovieFiltered,
@@ -22,3 +23,8 @@ export const getMovieByGenre = async (
       params: params,
     })
     .then((res) => res.data);
+
+export const getMovieDetail = async (
+  movieSlug: string,
+): Promise<BaseResponse<DataMovieDetail>> =>
+  privateInstance.get(`/customer/movie/${movieSlug}`).then((res) => res.data);

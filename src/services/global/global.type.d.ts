@@ -14,6 +14,7 @@ export interface MovieCustomer {
     "slug",
     "city",
     "layout",
+    "address",
     "total_seats"
   >[];
   description: string;
@@ -45,3 +46,11 @@ export const filterSchema = z.object({
 });
 
 export type FilterValues = z.infer<typeof filterSchema>;
+
+export interface DataMovieDetail {
+  movie: MovieDetail;
+}
+
+export interface MovieDetail extends MovieCustomer {
+  times: string[];
+}

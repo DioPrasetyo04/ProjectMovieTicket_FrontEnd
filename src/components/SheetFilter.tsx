@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { LoaderData } from "@/pages/customer";
+import type { LoaderData } from "@/pages/customer/CustomerBrowse";
 import { setFilter } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {

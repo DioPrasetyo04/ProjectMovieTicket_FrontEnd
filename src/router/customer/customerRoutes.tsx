@@ -1,9 +1,14 @@
 import { getSession } from "@/lib/utils";
-import CustomerBrowseGenre from "@/pages/customer";
-import CustomerHome from "@/pages/CustomerHome";
-import CustomerSignIn from "@/pages/CustomerSignIn";
-import CustomerSignUp from "@/pages/CustomerSignUp";
-import { getGenres, getMovies } from "@/services/global/global.service";
+import CustomerBrowseGenre from "@/pages/customer/CustomerBrowse";
+import CustomerHome from "@/pages/customer/CustomerHome/CustomerHome";
+import CustomerDetailMovie from "@/pages/customer/CustomerMovieDetail";
+import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
+import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
+import {
+  getGenres,
+  getMovieDetail,
+  getMovies,
+} from "@/services/global/global.service";
 import { getTheaters } from "@/services/theater/theater.service";
 import { redirect, type RouteObject } from "react-router-dom";
 
@@ -63,6 +68,27 @@ const customerRoutes: RouteObject[] = [
       };
     },
     element: <CustomerBrowseGenre></CustomerBrowseGenre>,
+  },
+  {
+    path: "/movie/:movieSlug",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      if (!params.movieSlug) {
+        throw redirect("/");
+      }
+
+      const movieDetail = await getMovieDetail(params.movieSlug as string);
+
+      return {
+        detail: movieDetail.data.movie,
+      };
+    },
+    element: <CustomerDetailMovie></CustomerDetailMovie>,
   },
 ];
 
