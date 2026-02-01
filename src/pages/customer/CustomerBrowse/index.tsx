@@ -52,7 +52,7 @@ const CustomerBrowseGenre = () => {
     );
   }
 
-  console.log(data);
+  // console.log(data);
   return (
     <div
       id="Content-Container"
