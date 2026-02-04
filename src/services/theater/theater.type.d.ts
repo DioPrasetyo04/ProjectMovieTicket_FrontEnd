@@ -19,8 +19,10 @@ export interface Layout {
   seats: Seat[];
 }
 
+export type SeatStatus = "available" | "unavailable" | "booked";
+
 export interface Seat {
   seat_number: string;
-  status: string;
+  status: SeatStatus;
   _id: string;
 }

@@ -5,6 +5,7 @@ import type {
   GenreCustomer,
   MovieCustomer,
   MovieFiltered,
+  SelectedSeat,
 } from "./global.type";
 import type { FilterState } from "@/redux/features/filter/filterSlice";
 
@@ -28,3 +29,15 @@ export const getMovieDetail = async (
   movieSlug: string,
 ): Promise<BaseResponse<DataMovieDetail>> =>
   privateInstance.get(`/customer/movie/${movieSlug}`).then((res) => res.data);
+
+export const checkSeats = async (
+  movieId: string,
+  date: string,
+): Promise<BaseResponse<SelectedSeat[]>> =>
+  privateInstance
+    .get(`/customer/check-seats/${movieId}`, {
+      params: {
+        date: date.replace(".", ":"),
+      },
+    })
+    .then((res) => res.data);

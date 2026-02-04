@@ -2,8 +2,10 @@ import { getSession } from "@/lib/utils";
 import CustomerBrowseGenre from "@/pages/customer/CustomerBrowse";
 import CustomerHome from "@/pages/customer/CustomerHome/CustomerHome";
 import CustomerDetailMovie from "@/pages/customer/CustomerMovieDetail";
+import SelectedTheater from "@/pages/customer/CustomerMovieDetail/SelectedTheater";
 import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
 import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
+import CustomerTransactions from "@/pages/customer/CustomerTransaction/CustomerTransactions";
 import {
   getGenres,
   getMovieDetail,
@@ -89,6 +91,19 @@ const customerRoutes: RouteObject[] = [
       };
     },
     element: <CustomerDetailMovie></CustomerDetailMovie>,
+  },
+  {
+    path: "/transaction-ticket",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerTransactions></CustomerTransactions>,
   },
 ];
 

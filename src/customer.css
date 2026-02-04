@@ -13,8 +13,8 @@
   }
 
   #Screen {
-    -webkit-mask-image: url(assets/images/backgrounds/screen.svg);
-    mask-image: url(assets/images/backgrounds/screen.svg);
+    -webkit-mask-image: url(/assets/images/backgrounds/screen.svg);
+    mask-image: url(/assets/images/backgrounds/screen.svg);
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center top;

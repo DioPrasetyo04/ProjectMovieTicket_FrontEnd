@@ -54,3 +54,8 @@ export interface DataMovieDetail {
 export interface MovieDetail extends MovieCustomer {
   times: string[];
 }
+
+export interface SelectedSeat {
+  seat_number: string;
+  _id: string;
+}
