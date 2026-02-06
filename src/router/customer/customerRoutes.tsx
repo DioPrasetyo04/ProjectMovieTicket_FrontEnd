@@ -1,8 +1,10 @@
 import { getSession } from "@/lib/utils";
 import CustomerBrowseGenre from "@/pages/customer/CustomerBrowse";
+import CustomerCallbackWalletTopUp from "@/pages/customer/CustomerCallbackWalletTopUp/CustomerCallbackWalletTopUp";
 import CustomerHome from "@/pages/customer/CustomerHome/CustomerHome";
 import CustomerDetailMovie from "@/pages/customer/CustomerMovieDetail";
 import SelectedTheater from "@/pages/customer/CustomerMovieDetail/SelectedTheater";
+import OrderDetails from "@/pages/customer/CustomerOrderDetails/OrderDetails";
 import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
 import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
 import CustomerTransactions from "@/pages/customer/CustomerTransaction/CustomerTransactions";
@@ -146,6 +148,32 @@ const customerRoutes: RouteObject[] = [
       return true;
     },
     element: <CustomerWalletTopUp></CustomerWalletTopUp>,
+  },
+  {
+    path: "/wallets/topup/success",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerCallbackWalletTopUp></CustomerCallbackWalletTopUp>,
+  },
+  {
+    path: "/tickets",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <OrderDetails></OrderDetails>,
   },
 ];
 

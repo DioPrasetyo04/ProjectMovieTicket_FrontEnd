@@ -1,7 +1,9 @@
 import { getSession, rupiahFormat } from "@/lib/utils";
 import { getBalance } from "@/services/global/global.service";
-import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import { topupWallet } from "@/services/wallet/wallet.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const OPTIONS_TOPUP = [
   50000, 100000, 150000, 200000, 250000, 300000, 350000, 750000, 900000,
@@ -20,6 +22,25 @@ const CustomerWalletTopUp = () => {
     queryKey: ["get-balance"],
     queryFn: () => getBalance(),
   });
+
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: topupWallet,
+  });
+
+  const handleTopUp = async () => {
+    try {
+      if (balance === 0) {
+        alert("Please select top up minimal amount");
+        return;
+      }
+
+      const data = await mutateAsync({ balance });
+
+      window.location.href = data.redirect_url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       id="Content-Container"
@@ -120,7 +141,9 @@ const CustomerWalletTopUp = () => {
         </div>
         <div className="relative h-[98px] w-full max-w-[640px]">
           <button
-            type="submit"
+            type="button"
+            disabled={isPending}
+            onClick={handleTopUp}
             className="fixed bottom-[30px] w-[calc(100%-40px)] max-w-[600px] rounded-full p-[12px_18px] h-fit bg-white font-bold text-premiere-black"
           >
             Proceed to Topup
