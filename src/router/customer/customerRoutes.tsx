@@ -7,6 +7,7 @@ import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
 import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
 import CustomerTransactions from "@/pages/customer/CustomerTransaction/CustomerTransactions";
 import CustomerTransactionSuccess from "@/pages/customer/CustomerTransactionCallback/CustomerTransactionSuccess";
+import CustomerWalletTopUp from "@/pages/customer/CustomerWalletTopUp/CustomerWalletTopUp";
 import CustomerWallet from "@/pages/customer/CustomerWalletTransaction/CustomerWallet";
 import {
   getGenres,
@@ -132,6 +133,19 @@ const customerRoutes: RouteObject[] = [
       return true;
     },
     element: <CustomerWallet></CustomerWallet>,
+  },
+  {
+    path: "/wallets/topup",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerWalletTopUp></CustomerWalletTopUp>,
   },
 ];
 
