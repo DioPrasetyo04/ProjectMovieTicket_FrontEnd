@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Genre } from "../genre/genre.type";
 import type { Seat, Theater } from "../theater/theater.type";
+import type { filterSchema } from "./schema";
 
 export interface MovieCustomer {
   _id: string;
@@ -38,13 +39,6 @@ export interface MovieFiltered {
   allDataMovies: MovieCustomer[];
 }
 
-export const filterSchema = z.object({
-  genre: z.string().nullable(),
-  city: z.string().nullable(),
-  availability: z.string().nullable(),
-  theaters: z.string().nullable(),
-});
-
 export type FilterValues = z.infer<typeof filterSchema>;
 
 export interface DataMovieDetail {
@@ -59,3 +53,9 @@ export interface SelectedSeat {
   seat_number: string;
   _id: string;
 }
+
+export interface Balance {
+  balance: number;
+}
+
+export type TransactionValues = z.infer<typeof transactionSchema>;

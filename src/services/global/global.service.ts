@@ -1,11 +1,13 @@
 import type { BaseResponse } from "@/Types/BaseResponse";
 import { privateInstance } from "@/lib/config_backend";
 import type {
+  Balance,
   DataMovieDetail,
   GenreCustomer,
   MovieCustomer,
   MovieFiltered,
   SelectedSeat,
+  TransactionValues,
 } from "./global.type";
 import type { FilterState } from "@/redux/features/filter/filterSlice";
 
@@ -40,4 +42,12 @@ export const checkSeats = async (
         date: date.replace(".", ":"),
       },
     })
+    .then((res) => res.data);
+
+export const getBalance = async (): Promise<BaseResponse<Balance>> =>
+  privateInstance.get("/customer/check-balance").then((res) => res.data);
+
+export const BuyTicket = async (data: TransactionValues) =>
+  privateInstance
+    .post("/customer/transaction/buy", data)
     .then((res) => res.data);

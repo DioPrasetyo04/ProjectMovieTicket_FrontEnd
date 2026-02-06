@@ -2,10 +2,8 @@ import { cn } from "@/lib/utils";
 import type { LoaderData } from "@/pages/customer/CustomerBrowse";
 import { setFilter } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  filterSchema,
-  type FilterValues,
-} from "@/services/global/global.type.d";
+import type { FilterValues } from "@/services/global/global.type.d";
+import { filterSchema } from "@/services/global/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";

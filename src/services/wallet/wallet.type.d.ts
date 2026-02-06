@@ -1,0 +1,6 @@
+export interface WalletTransaction {
+  _id: string;
+  wallet_id: string;
+  price: number;
+  status: string;
+}

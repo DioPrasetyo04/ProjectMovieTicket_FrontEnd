@@ -6,6 +6,8 @@ import SelectedTheater from "@/pages/customer/CustomerMovieDetail/SelectedTheate
 import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
 import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
 import CustomerTransactions from "@/pages/customer/CustomerTransaction/CustomerTransactions";
+import CustomerTransactionSuccess from "@/pages/customer/CustomerTransactionCallback/CustomerTransactionSuccess";
+import CustomerWallet from "@/pages/customer/CustomerWalletTransaction/CustomerWallet";
 import {
   getGenres,
   getMovieDetail,
@@ -104,6 +106,32 @@ const customerRoutes: RouteObject[] = [
       return true;
     },
     element: <CustomerTransactions></CustomerTransactions>,
+  },
+  {
+    path: "/transaction-ticket/success",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerTransactionSuccess></CustomerTransactionSuccess>,
+  },
+  {
+    path: "/wallets",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerWallet></CustomerWallet>,
   },
 ];
 

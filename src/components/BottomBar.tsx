@@ -11,7 +11,7 @@ const BottomBar = ({ activeLink }: BottomBarProps) => {
           to="/"
           className={cn(
             "flex items-center shrink-0 rounded-3xl p-3 gap-3 w-12 h-12 bg-[#FFFFFF33] overflow-hidden transition-all duration-300 hover:invert hover:bg-black",
-            activeLink === "discover" ? "!w-fit pr-4 bg-black invert" : "w-12"
+            activeLink === "discover" ? "!w-fit pr-4 bg-black invert" : "w-12",
           )}
         >
           <img
@@ -25,7 +25,7 @@ const BottomBar = ({ activeLink }: BottomBarProps) => {
           to="/"
           className={cn(
             "flex items-center shrink-0 rounded-3xl p-3 gap-3 w-12 h-12 bg-[#FFFFFF33] overflow-hidden transition-all duration-300 hover:invert hover:bg-black",
-            activeLink === "tickets" ? "!w-fit pr-4 bg-black invert" : "w-12"
+            activeLink === "tickets" ? "!w-fit pr-4 bg-black invert" : "w-12",
           )}
         >
           <img
@@ -36,10 +36,10 @@ const BottomBar = ({ activeLink }: BottomBarProps) => {
           <p className="font-semibold text-sm text-white">Tickets</p>
         </Link>
         <Link
-          to="/"
+          to="/wallets"
           className={cn(
             "flex items-center shrink-0 rounded-3xl p-3 gap-3 w-12 h-12 bg-[#FFFFFF33] overflow-hidden transition-all duration-300 hover:invert hover:bg-black",
-            activeLink === "wallet" ? "!w-fit pr-4 bg-black invert" : "w-12"
+            activeLink === "wallet" ? "!w-fit pr-4 bg-black invert" : "w-12",
           )}
         >
           <img
@@ -53,7 +53,7 @@ const BottomBar = ({ activeLink }: BottomBarProps) => {
           to="/"
           className={cn(
             "flex items-center shrink-0 rounded-3xl p-3 gap-3 w-12 h-12 bg-[#FFFFFF33] overflow-hidden transition-all duration-300 hover:invert hover:bg-black",
-            activeLink === "settings" ? "!w-fit pr-4 bg-black invert" : "w-12"
+            activeLink === "settings" ? "!w-fit pr-4 bg-black invert" : "w-12",
           )}
         >
           <img

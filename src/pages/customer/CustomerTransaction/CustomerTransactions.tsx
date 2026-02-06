@@ -1,18 +1,97 @@
+import { dateFormated, getSession, rupiahFormat } from "@/lib/utils";
+import { setStep } from "@/redux/features/ticket/ticketSlice";
 import { useAppSelector } from "@/redux/hooks";
-import React from "react";
+import { BuyTicket, getBalance } from "@/services/global/global.service";
+import type { TransactionValues } from "@/services/global/global.type";
+import { transactionSchema } from "@/services/global/schema";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const CustomerTransactions = () => {
   const { detail, movie } = useAppSelector((state) => state.ticket);
 
+  const auth = getSession();
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: (data: TransactionValues) => BuyTicket(data),
+  });
+
+  const { data } = useQuery({
+    queryKey: ["get-balance"],
+    queryFn: () => getBalance(),
+  });
+
+  //   console.log(detail, movie);
+
+  const DetailPrice = useMemo(() => {
+    if (!movie && !detail) {
+      return {
+        subtotal: 0,
+        ppn: 0,
+        bookingFee: 0,
+        total: 0,
+      };
+    }
+
+    const subTotal = (movie?.price ?? 0) * (detail?.seat?.length ?? 0);
+    const ppn = (subTotal * 11) / 100;
+    const bookingFee = 3000;
+
+    const total = subTotal + ppn + bookingFee;
+
+    return {
+      subtotal: subTotal,
+      ppn,
+      bookingFee,
+      total,
+    };
+  }, [movie, detail]);
+
+  const isBalanceEnough = (data?.data.balance ?? 0) >= DetailPrice.total;
 
   if (!movie && !detail) {
     return <Navigate to={"/"}></Navigate>;
   }
 
-  //   console.log(detail, movie);
+  const handleTransaction = async () => {
+    try {
+      const rawTime = detail?.time ?? "";
+
+      // ubah "2026-02-07 12.30" → "2026-02-07 12:30"
+      const normalizedTime = rawTime.replace(".", ":").replace(" ", "T");
+
+      const isoDate = new Date(normalizedTime).toISOString();
+
+      const parse = transactionSchema.parse({
+        subtotal: DetailPrice.subtotal,
+        total: DetailPrice.total,
+        bookingFee: DetailPrice.bookingFee,
+        tax: DetailPrice.ppn,
+        movieId: movie?._id ?? "",
+        theaterId: detail?.theater?._id ?? "",
+        seats: detail?.seat ?? [],
+        date: isoDate,
+      });
+
+      await mutateAsync(parse);
+
+      dispatch(
+        setStep({
+          step: "DETAIL",
+        }),
+      );
+
+      navigate("/transaction-ticket/success");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -119,7 +198,7 @@ const CustomerTransactions = () => {
               />
               <p>Date & Time</p>
             </div>
-            <p>11:00, 8 Sep, 2024</p>
+            <p>{dateFormated(detail?.time ?? "", "DD-MM-YYYY HH:mm")}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -130,7 +209,7 @@ const CustomerTransactions = () => {
               />
               <p>Quantity</p>
             </div>
-            <p>2 Seats</p>
+            <p>{detail?.seat?.length} Seats</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -141,7 +220,7 @@ const CustomerTransactions = () => {
               />
               <p>Seats</p>
             </div>
-            <p>C1, C2</p>
+            <p>{detail?.seat?.join(",")}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -152,7 +231,7 @@ const CustomerTransactions = () => {
               />
               <p>Bonus</p>
             </div>
-            <p>Included 100%</p>
+            <p>{movie?.bonus}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -163,7 +242,7 @@ const CustomerTransactions = () => {
               />
               <p>Price</p>
             </div>
-            <p>Rp 189.490/orang</p>
+            <p>{rupiahFormat(movie?.price ?? 0)}/orang</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -174,7 +253,7 @@ const CustomerTransactions = () => {
               />
               <p>Sub Total</p>
             </div>
-            <p>Rp 860.000</p>
+            <p>{rupiahFormat(DetailPrice.subtotal)}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -185,7 +264,7 @@ const CustomerTransactions = () => {
               />
               <p>PPN 11%</p>
             </div>
-            <p>Rp 24.000</p>
+            <p>{rupiahFormat(DetailPrice.ppn)}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -196,9 +275,9 @@ const CustomerTransactions = () => {
               />
               <p>Booking Fee</p>
             </div>
-            <p>Rp 3.000</p>
+            <p>{rupiahFormat(DetailPrice.bookingFee)}</p>
           </div>
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img
                 src="/assets/images/icons/ticket-expired.svg"
@@ -208,7 +287,7 @@ const CustomerTransactions = () => {
               <p>Discount</p>
             </div>
             <p>Rp 15.000</p>
-          </div>
+          </div> */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img
@@ -218,7 +297,9 @@ const CustomerTransactions = () => {
               />
               <p>Grand Total</p>
             </div>
-            <p className="font-bold text-premiere-yellow">Rp 1.453.405</p>
+            <p className="font-bold text-premiere-yellow">
+              {rupiahFormat(DetailPrice.total)}
+            </p>
           </div>
         </div>
       </section>
@@ -236,16 +317,16 @@ const CustomerTransactions = () => {
             alt=""
           />
           <p className="relative font-bold text-4xl leading-[54px] mt-[18px] mx-6">
-            Rp 19.458.333
+            {rupiahFormat(data?.data.balance ?? 0)}
           </p>
           <div className="flex items-center justify-between p-[10px_14px] pl-6 bg-white/20 backdrop-blur-3xl mt-[21px]">
             <div className="flex flex-col gap-[2px]">
               <p className="text-xs leading-[18px]">Name</p>
-              <p className="font-semibold text-sm">Angga Risky</p>
+              <p className="font-semibold text-sm">{auth?.name}</p>
             </div>
             <div className="flex flex-col gap-[2px]">
               <p className="text-xs leading-[18px]">Expired At</p>
-              <p className="font-semibold text-sm">02/30</p>
+              <p className="font-semibold text-sm">Unlimited</p>
             </div>
             <div className="flex flex-col gap-[2px]">
               <p className="text-xs leading-[18px]">Branch</p>
@@ -254,52 +335,59 @@ const CustomerTransactions = () => {
           </div>
         </div>
       </section>
-      <div className="flex items-center justify-between gap-3 rounded-[20px] p-4 bg-[#ff2149] mx-5 mt-5">
-        <p className="font-semibold">
-          Saldo Ewallet anda tidak mencukupi untuk saat ini
-        </p>
-        <a
-          href="top-up.html"
-          className="rounded-full p-[12px_18px] bg-white font-bold text-premiere-black"
-        >
-          Topup
-        </a>
-      </div>
-      <form action="success-payment.html">
-        <div className="flex items-center gap-3 px-5 mt-5">
-          <label className="group relative">
-            <input
-              type="checkbox"
-              name="city"
-              id=""
-              className="w-6 h-6 rounded-lg appearance-none checked:border-4 checked:border-solid checked:border-premiere-black checked:bg-premiere-purple ring-1 ring-premiere-purple transition-all duration-300"
-            />
-          </label>
-          <p>
-            Saya setuju dengan ketentuan yang tersedia dan proses lanjut
-            beli{" "}
+      {!isBalanceEnough && (
+        <div className="flex items-center justify-between gap-3 rounded-[20px] p-4 bg-[#ff2149] mx-5 mt-5 mb-5">
+          <p className="font-semibold">
+            Saldo Ewallet anda tidak mencukupi untuk saat ini
           </p>
+          <Link
+            to={"/wallet/topup"}
+            className="rounded-full p-[12px_18px] bg-white font-bold text-premiere-black"
+          >
+            Topup
+          </Link>
         </div>
-        <div
-          id="Bottom-Nav"
-          className="relative w-full h-[123px] flex shrink-0"
-        >
-          <div className="fixed bottom-5 left-5 right-5 w-full max-w-[330px] mx-auto flex items-center justify-between rounded-full p-[10px_14px] pl-6 gap-[14px] bg-[#FFFFFF33] z-20 backdrop-blur-md">
-            <div>
-              <p id="price" className="font-semibold text-xl leading-[30px]">
-                Rp 1.453.405{" "}
-              </p>
-              <span className="font-normal text-sm mt-[2px]">Grand Total</span>
+      )}
+      {isBalanceEnough && (
+        <div>
+          <div className="flex items-center gap-3 px-5 mt-5">
+            <label className="group relative">
+              <input
+                type="checkbox"
+                name="city"
+                id=""
+                className="w-6 h-6 rounded-lg appearance-none checked:border-4 checked:border-solid checked:border-black checked:bg-purple-500 ring-1 ring-premiere-purple transition-all duration-300"
+              />
+            </label>
+            <p>
+              Saya setuju dengan ketentuan yang tersedia dan proses lanjut
+              beli{" "}
+            </p>
+          </div>
+          <div
+            id="Bottom-Nav"
+            className="relative w-full h-[123px] flex shrink-0"
+          >
+            <div className="fixed bottom-5 left-5 right-5 w-full max-w-[330px] mx-auto flex items-center justify-between rounded-full p-[10px_14px] pl-6 gap-[14px] bg-[#FFFFFF33] z-20 backdrop-blur-md">
+              <div>
+                <p id="price" className="font-semibold text-xl leading-[30px]">
+                  {rupiahFormat(DetailPrice.total)}
+                </p>
+                <span className="font-normal text-sm mt-[2px]">
+                  Grand Total
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleTransaction}
+                className="rounded-full p-[12px_18px] bg-white font-bold text-premiere-black"
+              >
+                Pay Now
+              </button>
             </div>
-            <button
-              type="submit"
-              className="rounded-full p-[12px_18px] bg-white font-bold text-premiere-black"
-            >
-              Pay Now
-            </button>
           </div>
         </div>
-      </form>
+      )}
     </div>
   );
 };
