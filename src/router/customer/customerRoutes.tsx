@@ -4,7 +4,8 @@ import CustomerCallbackWalletTopUp from "@/pages/customer/CustomerCallbackWallet
 import CustomerHome from "@/pages/customer/CustomerHome/CustomerHome";
 import CustomerDetailMovie from "@/pages/customer/CustomerMovieDetail";
 import SelectedTheater from "@/pages/customer/CustomerMovieDetail/SelectedTheater";
-import OrderDetails from "@/pages/customer/CustomerOrderDetails/OrderDetails";
+import CustomerOrderDetails from "@/pages/customer/CustomerOrderDetails/CustomerOrderDetails";
+import OrderDetails from "@/pages/customer/CustomerOrderDetails/CustomerOrderDetails";
 import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
 import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
 import CustomerTransactions from "@/pages/customer/CustomerTransaction/CustomerTransactions";
@@ -17,6 +18,7 @@ import {
   getMovies,
 } from "@/services/global/global.service";
 import { getTheaters } from "@/services/theater/theater.service";
+import { getOrders } from "@/services/transaction/orders.service";
 import { redirect, type RouteObject } from "react-router-dom";
 
 const customerRoutes: RouteObject[] = [
@@ -171,9 +173,12 @@ const customerRoutes: RouteObject[] = [
         throw redirect("/sign-in");
       }
 
-      return true;
+      const orders = await getOrders();
+
+      return orders.data;
     },
-    element: <OrderDetails></OrderDetails>,
+
+    element: <CustomerOrderDetails></CustomerOrderDetails>,
   },
 ];
 
