@@ -3,10 +3,10 @@ import type { Theater } from "../theater/theater.type";
 
 type MovieOrders = Pick<
   Movie,
-  "title" | "genre" | "thumbnail" | "thumbnailUrl"
+  "title" | "genre" | "thumbnail" | "thumbnailUrl" | "price" | "bonus"
 >;
 
-type TheaterOrders = Pick<Theater, "name" | "city">;
+type TheaterOrders = Pick<Theater, "name" | "city" | "address">;
 
 type SeatOrders = Pick<Seat, "seat_number">;
 
@@ -16,4 +16,8 @@ export interface Orders {
   theater_id: TheaterOrders;
   date: string;
   seats: SeatOrders[];
+  subtotal: number;
+  total: number;
+  bookingFee: number;
+  tax: number;
 }

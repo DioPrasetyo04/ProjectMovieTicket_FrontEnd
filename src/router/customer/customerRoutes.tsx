@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/utils";
 import CustomerBrowseGenre from "@/pages/customer/CustomerBrowse";
 import CustomerCallbackWalletTopUp from "@/pages/customer/CustomerCallbackWalletTopUp/CustomerCallbackWalletTopUp";
+import CustomerDetailOrders from "@/pages/customer/CustomerDetailOrders/CustomerDetailOrders";
 import CustomerHome from "@/pages/customer/CustomerHome/CustomerHome";
 import CustomerDetailMovie from "@/pages/customer/CustomerMovieDetail";
 import SelectedTheater from "@/pages/customer/CustomerMovieDetail/SelectedTheater";
@@ -18,7 +19,10 @@ import {
   getMovies,
 } from "@/services/global/global.service";
 import { getTheaters } from "@/services/theater/theater.service";
-import { getOrders } from "@/services/transaction/orders.service";
+import {
+  getOrderDetails,
+  getOrders,
+} from "@/services/transaction/orders.service";
 import { redirect, type RouteObject } from "react-router-dom";
 
 const customerRoutes: RouteObject[] = [
@@ -179,6 +183,26 @@ const customerRoutes: RouteObject[] = [
     },
 
     element: <CustomerOrderDetails></CustomerOrderDetails>,
+  },
+  {
+    path: "/orders/:orderId",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      if (!params.orderId) {
+        throw redirect("/orders");
+      }
+
+      const transaction = await getOrderDetails(params.orderId);
+
+      return transaction.data;
+    },
+
+    element: <CustomerDetailOrders></CustomerDetailOrders>,
   },
 ];
 
