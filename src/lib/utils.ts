@@ -3,6 +3,7 @@ import { clsx, type ClassValue } from "clsx";
 import secureLocalStorage from "react-secure-storage";
 import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
+import { isTokenExpired } from "./auth";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,6 +16,16 @@ export function cn(...inputs: ClassValue[]) {
 // >;
 
 export const SESSION_KEY = import.meta.env.VITE_SESSION_KEY_GENERATE_SECRET;
+
+export function clearSession() {
+  secureLocalStorage.removeItem(SESSION_KEY);
+}
+
+export function logoutAndRedirect() {
+  clearSession();
+
+  window.location.replace("/sign-in");
+}
 
 export function getSession() {
   // const storedAuth = secureLocalStorage.getItem(SESSION_KEY);
@@ -42,7 +53,13 @@ export function getSession() {
   //   photoUrl: storedAuth?.photoUrl,
   // };
 
-  return storedAuth;
+  const session = storedAuth as LoginResponse;
+
+  if (isTokenExpired(session.token)) {
+    logoutAndRedirect();
+    return null;
+  }
+  return session;
 }
 
 export function rupiahFormat(value: number) {

@@ -50,7 +50,7 @@ const BottomBar = ({ activeLink }: BottomBarProps) => {
           <p className="font-semibold text-sm text-white">E-Wallet</p>
         </Link>
         <Link
-          to="/"
+          to="/settings"
           className={cn(
             "flex items-center shrink-0 rounded-3xl p-3 gap-3 w-12 h-12 bg-[#FFFFFF33] overflow-hidden transition-all duration-300 hover:invert hover:bg-black",
             activeLink === "settings" ? "!w-fit pr-4 bg-black invert" : "w-12",

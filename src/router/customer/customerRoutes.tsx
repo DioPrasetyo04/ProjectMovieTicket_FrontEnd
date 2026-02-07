@@ -7,6 +7,7 @@ import CustomerDetailMovie from "@/pages/customer/CustomerMovieDetail";
 import SelectedTheater from "@/pages/customer/CustomerMovieDetail/SelectedTheater";
 import CustomerOrderDetails from "@/pages/customer/CustomerOrderDetails/CustomerOrderDetails";
 import OrderDetails from "@/pages/customer/CustomerOrderDetails/CustomerOrderDetails";
+import CustomerSettings from "@/pages/customer/CustomerSettings/CustomerSettings";
 import CustomerSignIn from "@/pages/customer/CustomerSignIn/CustomerSignIn";
 import CustomerSignUp from "@/pages/customer/CustomerSignup/CustomerSignUp";
 import CustomerTransactions from "@/pages/customer/CustomerTransaction/CustomerTransactions";
@@ -203,6 +204,19 @@ const customerRoutes: RouteObject[] = [
     },
 
     element: <CustomerDetailOrders></CustomerDetailOrders>,
+  },
+  {
+    path: "/settings",
+    loader: async ({ params }) => {
+      const user = getSession();
+
+      if (!user || user.role !== "customer") {
+        throw redirect("/sign-in");
+      }
+
+      return true;
+    },
+    element: <CustomerSettings></CustomerSettings>,
   },
 ];
 
